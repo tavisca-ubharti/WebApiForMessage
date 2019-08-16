@@ -48,7 +48,7 @@ pipeline {
         stage('Deploy') {
             steps {
                 powershell '''               
-                expand-archive artifactFiles.zip C:\\Users\\ubharti\\Desktop\\unzip -Force
+                expand-archive artifactFiles.zip ./ -Force
                 dotnet WebApiForHelloHi.dll               
                 '''
             }
