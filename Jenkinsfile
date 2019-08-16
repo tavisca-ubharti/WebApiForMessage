@@ -40,7 +40,7 @@ pipeline {
          stage('Compress') {
             steps {
                 powershell '''
-                compress-archive WebAppDemo\\bin\\Release\\netcoreapp2.2\\publish\\* artifactFiles.zip -Update           
+                compress-archive WebApiForHelloHi\\bin\\Release\\netcoreapp2.2\\publish\\* artifactFiles.zip -Update           
                 '''
             }
         }
