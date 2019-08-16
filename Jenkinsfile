@@ -40,7 +40,7 @@ pipeline {
          stage('Compress') {
             steps {
                 powershell '''
-                compress-archive WebApiForHelloHi\\bin\\Release\\netcoreapp2.2\\publish\\* artifactFiles.zip -Update           
+                compress-archive WebApiForHelloHii\\bin\\Release\\netcoreapp2.2\\publish\\* artifactFiles.zip -Update           
                 '''
             }
         }
@@ -49,7 +49,7 @@ pipeline {
             steps {
                 powershell '''               
                 expand-archive artifactFiles.zip ./ -Force
-                dotnet WebApiForHelloHi.dll               
+                dotnet WebApiForHelloHii.dll               
                 '''
             }
         }
