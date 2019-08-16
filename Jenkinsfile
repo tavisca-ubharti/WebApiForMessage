@@ -49,7 +49,7 @@ pipeline {
             steps {
                 powershell '''               
                 expand-archive artifactFiles.zip C:\\Users\\ubharti\\Desktop\\unzip -Force
-                dotnet WebAppDemo.dll               
+                dotnet WebApiForHelloHi.dll               
                 '''
             }
         }
