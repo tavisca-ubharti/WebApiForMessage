@@ -1,20 +1,56 @@
 pipeline {
     agent any
     parameters {
-        string(defaultValue: "https://github.com/tavisca-ubharti/WebApiForMessage.git", description: '', name: 'GIT_SSH_PATH')
-        string(defaultValue: "WebApiForHelloHii.sln", description: '', name: 'SOLUTION_FILE_PATH')
-        string(defaultValue: "WebApiForHelloHii.Tests/WebApiForHelloHii.Tests.csproj", description: '', name: 'TEST_PROJECT_PATH')
+        string(name: 'GIT_HTTPS_PATH', defaultValue: 'https://github.com/tavisca-ubharti/WebApiForMessage.git')
+        string(name: 'TEST_PROJECT_PATH', defaultValue: 'WebApiForHelloHii.Tests/WebApiForHelloHii.Tests.csproj')
+        string(name: 'API_SOLUTION', defaultValue: 'WebApiForHelloHii.sln')
+        choice(name:'choices',choices: ['Both','Build', 'Test'])
     }
     stages {
+        stage('restore'){
+            steps{
+                powershell'''
+                    dotnet restore $ENV:WORKSPACE\\$($env:API_SOLUTION) --source https://api.nuget.org/v3/index.json
+                '''
+            }
+        }
         stage('Build') {
             steps {
-                sh 'dotnet restore ${SOLUTION_FILE_PATH} --source https://api.nuget.org/v3/index.json'
-                sh 'dotnet build  ${SOLUTION_FILE_PATH} -p:Configuration=release -v:n'
+               powershell '''             
+               dotnet build $ENV:WORKSPACE\\$($env:API_SOLUTION) -p:Configration=release -v:q
+               '''
+             
             }
         }
         stage('Test') {
             steps {
-                sh 'dotnet test ${TEST_PROJECT_PATH}'
+              powershell'''
+              dotnet test $ENV:WORKSPACE\\$($env:TEST_PROJECT_PATH)
+              '''
+            }
+        }
+        stage('Publish') {
+            steps {
+                powershell '''               
+                dotnet publish $ENV:WORKSPACE\\$($env:API_SOLUTION) -c Release                              
+                '''
+            }
+        }
+       
+         stage('Compress') {
+            steps {
+                powershell '''
+                compress-archive WebAppDemo\\bin\\Release\\netcoreapp2.2\\publish\\* artifactFiles.zip -Update           
+                '''
+            }
+        }
+       
+        stage('Deploy') {
+            steps {
+                powershell '''               
+                expand-archive artifactFiles.zip C:\\Users\\ubharti\\Desktop\\unzip -Force
+                dotnet WebAppDemo.dll               
+                '''
             }
         }
     }
