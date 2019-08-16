@@ -10,14 +10,14 @@ pipeline {
         stage('restore'){
             steps{
                 powershell'''
-                    dotnet restore $ENV:WORKSPACE\\$($env:API_SOLUTION) --source https://api.nuget.org/v3/index.json
+                    dotnet restore ${API_SOLUTION} --source https://api.nuget.org/v3/index.json
                 '''
             }
         }
         stage('Build') {
             steps {
                powershell '''             
-               dotnet build $ENV:WORKSPACE\\$($env:API_SOLUTION) -p:Configration=release -v:q
+               dotnet build ${API_SOLUTION} -p:Configration=release -v:q
                '''
              
             }
@@ -25,14 +25,14 @@ pipeline {
         stage('Test') {
             steps {
               powershell'''
-              dotnet test $ENV:WORKSPACE\\$($env:TEST_PROJECT_PATH)
+              dotnet test ${TEST_PROJECT_PATH}
               '''
             }
         }
         stage('Publish') {
             steps {
                 powershell '''               
-                dotnet publish $ENV:WORKSPACE\\$($env:API_SOLUTION) -c Release                              
+                dotnet publish ${API_SOLUTION} -c Release                              
                 '''
             }
         }
