@@ -50,7 +50,7 @@ pipeline{
     stages{
         stage('Build'){
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Build" || params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish"}
+                expression{params.RELEASE_ENVIRONMENT == "Deploy" || params.RELEASE_ENVIRONMENT == "Build" || params.RELEASE_ENVIRONMENT == "Test" || params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps{
                 powershell '''
@@ -62,7 +62,7 @@ pipeline{
         }
         stage('Publish'){
             when{
-                expression{params.RELEASE_ENVIRONMENT == "Publish"}
+                expression{params.RELEASE_ENVIRONMENT == "Deploy"|| params.RELEASE_ENVIRONMENT == "Publish"}
             }
             steps{
                 powershell '''
