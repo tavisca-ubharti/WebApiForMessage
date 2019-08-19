@@ -72,10 +72,10 @@ pipeline{
             }
             steps{
                 powershell '''
-                    dotnet C:\Users\ubharti\sonar-scanner-msbuild-4.6.2.2108-netcoreapp2.0\SonarScanner.MSBuild.dll begin /k:"WebApi" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="0b1e85ae8473a15f0f70e46ad157199d489453ca"
+                    dotnet C:/Users/ubharti/sonar-scanner-msbuild-4.6.2.2108-netcoreapp2.0/SonarScanner.MSBuild.dll begin /k:"WebApi" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="0b1e85ae8473a15f0f70e46ad157199d489453ca"
                     dotnet build
                     dotnet test
-                    dotnet C:\Users\ubharti\sonar-scanner-msbuild-4.6.2.2108-netcoreapp2.0\SonarScanner.MSBuild.dll end /d:sonar.login="0b1e85ae8473a15f0f70e46ad157199d489453ca"
+                    dotnet C:/Users/ubharti/sonar-scanner-msbuild-4.6.2.2108-netcoreapp2.0/SonarScanner.MSBuild.dll end /d:sonar.login="0b1e85ae8473a15f0f70e46ad157199d489453ca"
                 '''
             }
         }
