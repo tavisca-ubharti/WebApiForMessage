@@ -90,7 +90,7 @@ pipeline{
                 powershell "docker tag ${Project_Name} ${DOCKER_USER_NAME}/${Project_Name}"
                 powershell "docker login -u=${DOCKER_USER_NAME} -p=${DOCKER_PASSWORD}"
                 powershell "docker push ${DOCKER_USER_NAME}/${Project_Name}"
-                powershell "docker run -p 812:80 ${DOCKER_USER_NAME}/${Project_Name}"
+                powershell "docker run -p 8112:80 ${DOCKER_USER_NAME}/${Project_Name}"
             }
         }
     }
