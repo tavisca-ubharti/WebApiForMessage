@@ -1,10 +1,6 @@
 pipeline{
-    agent { label 'master' }
-    environment {
-        registry = "ujjwalbharti111/webapi"
-        registryCredential = "docker"
-    }
-
+    agent any
+   
     parameters{
         string(
             name: "GIT_SOURCE",
@@ -75,15 +71,13 @@ pipeline{
                 expression{params.RELEASE_ENVIRONMENT == "Deploy"}
             }
             steps {
-                writeFile file: 'WebApiForHelloHii/bin/Debug/netcoreapp2.2/publish/Dockerfile', text: '''
-                        FROM mcr.microsoft.com/dotnet/core/aspnet\n
-                        ENV NAME ${Project_Name}\n
-                        CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
-                
-                powershell "docker build WebApiForHelloHii/bin/Debug/netcoreapp2.2/publish/ --tag=${Project_Name}"    
+                              
+                powershell "Copy-Item WebApiForHelloHii/bin/Debug/netcoreapp2.2/publish/* docker/ -Recurse"
+                powershell "docker build docker/ --tag=${Project_Name}"    
                 powershell "docker tag ${Project_Name} ${DOCKER_USER_NAME}/${Project_Name}"
                 powershell "docker login -u=${DOCKER_USER_NAME} -p=${DOCKER_PASSWORD}"
                 powershell "docker push ${DOCKER_USER_NAME}/${Project_Name}"
+                powershell "docker run -p 809:80 ${DOCKER_USER_NAME}/${Project_Name}"
             }
         }
     }
