@@ -71,13 +71,7 @@ pipeline{
                 expression{params.RELEASE_ENVIRONMENT == "Deploy"}
             }
             steps {
-                writeFile file: 'WebApiForHelloHii/bin/Debug/netcoreapp2.2/publish/Dockerfile', text: '''
-                        FROM mcr.microsoft.com/dotnet/core/aspnet\n
-                        WORKDIR WebApiForHelloHii/bin/Debug/netcoreapp2.2/publish/
-                        EXPOSE 8000
-                        ENV NAME ${Project_Name}\n
-                        CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
-                
+                              
                 powershell "Copy-Item WebApiForHelloHii/bin/Debug/netcoreapp2.2/publish/* docker/ -Recurse"
                 powershell "docker build docker/ --tag=${Project_Name}"    
                 powershell "docker tag ${Project_Name} ${DOCKER_USER_NAME}/${Project_Name}"
