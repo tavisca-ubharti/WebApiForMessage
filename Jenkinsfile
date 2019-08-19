@@ -12,7 +12,7 @@ pipeline{
         )
         string(
             name: "Project_Name",
-            defaultValue: "API"
+            defaultValue: "webapi"
         )
         string(
             name: "SOLUTION_PATH",
@@ -28,7 +28,7 @@ pipeline{
         )
         string(
             name: "ENV_NAME",
-            defaultValue: "API",
+            defaultValue: "api",
         )
         string(
             name: "SOLUTION_DLL_FILE",
