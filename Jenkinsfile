@@ -1,10 +1,6 @@
 pipeline{
-    agent { label 'master' }
-    environment {
-        registry = "ujjwalbharti111/webapi"
-        registryCredential = "docker"
-    }
-
+    agent any
+   
     parameters{
         string(
             name: "GIT_SOURCE",
@@ -77,6 +73,8 @@ pipeline{
             steps {
                 writeFile file: 'WebApiForHelloHii/bin/Debug/netcoreapp2.2/publish/Dockerfile', text: '''
                         FROM mcr.microsoft.com/dotnet/core/aspnet\n
+                        WORKDIR WebApiForHelloHii/bin/Debug/netcoreapp2.2/publish/
+                        EXPOSE 8000
                         ENV NAME ${Project_Name}\n
                         CMD ["dotnet", "${SOLUTION_DLL_FILE}"]\n'''
                 
